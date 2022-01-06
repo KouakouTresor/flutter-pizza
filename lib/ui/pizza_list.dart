@@ -35,33 +35,26 @@ class _PizzaListState extends State<PizzaList> {
   }
 
   _buildRow(Pizza pizza) {
-   /* return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      ListTile(
-        title: Text(pizza.title),
-        subtitle: Text(pizza.garniture),
-        leading: Icon(Icons.local_pizza),
-      ),
-      Image.asset('assets/images/pizzas/${pizza.image}',
-          height: 120, fit: BoxFit.fitWidth),
-      Text(pizza.garniture),
-         ElevatedButton(
-          child: Text("Commander"),
-          onPressed: () {
-            print('Commander une pizza');
-          })
-    ]);
-
-    */
-
-
      return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(10.0), top: Radius.circular(2.0))
         ),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ListTile(
+            crossAxisAlignment: CrossAxisAlignment.start, 
+            children: [
+              GestureDetector(
+                onTap:(){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context)=>PizzaDetails(pizza)
+                  ),
+                  );
+                },
+                child: _buildPizzaDetails(pizza)
+              ),
+              BuyButtonWidget()
+         /* ListTile(
             title: Text(pizza.title),
             subtitle: Text(pizza.garniture),
             leading: Icon(Icons.local_pizza),
@@ -76,6 +69,8 @@ class _PizzaListState extends State<PizzaList> {
               onPressed: () {
                 print('Commander une pizza');
               })
+
+          */
         ]
           )
         );
@@ -105,7 +100,9 @@ class _PizzaListState extends State<PizzaList> {
   }
 
   _buildPizzaDetails(Pizza pizza) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
       ListTile(
         title: Text(pizza.title),
         subtitle: Text(pizza.garniture),
