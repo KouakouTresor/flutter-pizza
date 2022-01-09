@@ -78,8 +78,8 @@ class _PizzaDetailsState extends State<PizzaDetails> {
   _buildDropDownTailles() {
     return DropdownButton<OptionItem>(
       isExpanded: true,
-      value: Pizza.pates[widget._pizza.pate],
-      items: _buildDropDownItem(Pizza.pates),
+      value: Pizza.tailles[widget._pizza.taille],
+      items: _buildDropDownItem(Pizza.tailles),
       onChanged: (item) {
         setState(() {
           widget._pizza.pate = item!.value;
@@ -91,8 +91,8 @@ class _PizzaDetailsState extends State<PizzaDetails> {
   _buildDropDownSauces() {
     return DropdownButton<OptionItem>(
       isExpanded: true,
-      value: Pizza.pates[widget._pizza.pate],
-      items: _buildDropDownItem(Pizza.pates),
+      value: Pizza.sauces[widget._pizza.sauce],
+      items: _buildDropDownItem(Pizza.sauces),
       onChanged: (item) {
         setState(() {
           widget._pizza.pate = item!.value;
