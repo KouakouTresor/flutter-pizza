@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/ui/share/pizzeria_style.dart';
+import "package:intl/intl.dart";
+
 
 class TotalWidget extends StatelessWidget {
   final double total;
@@ -8,7 +10,7 @@ class TotalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var format = NumberFormart("###.00 €");
+    var format = NumberFormat("###.00 €");
     String totalAfficher = format.format(total);
 
     return Container(

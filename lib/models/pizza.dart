@@ -5,7 +5,9 @@ class Pizza {
   final String title;
   final String garniture;
   final String image; 
-  final double prince;
+  final double price;
+
+
   int pate=0;
   int taille = 1;
   int sauce = 0;
@@ -27,7 +29,7 @@ class Pizza {
     OptionItem(1, "Sauce Samourai", supplement:2),
   ];
 
-  Pizza(this.id, this.title, this.garniture, this.image, this.prince);
+  Pizza(this.id, this.title, this.garniture, this.image, this.price);
 
   double get total {
     double total = price;
