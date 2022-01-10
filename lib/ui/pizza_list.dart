@@ -130,5 +130,3 @@ class _PizzaListState extends State<PizzaList> {
   }
 }
 
-class PizzariaService {
-}
