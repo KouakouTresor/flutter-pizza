@@ -1,40 +1,65 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/models/Cart.dart';
 import 'package:my_app/models/pizza.dart';
 import 'package:my_app/models/pizza_data.dart';
+import 'package:my_app/services/pizzeria_service.dart';
 import 'package:my_app/ui/pizza_details.dart';
+import 'package:my_app/ui/share/appbar_widget.dart';
 import 'package:my_app/ui/share/buy_button_widget.dart';
+import 'package:my_app/ui/share/pizzeria_style.dart';
 
 class PizzaList extends StatefulWidget {
-  const PizzaList({Key? key}) : super(key: key);
+  final Cart _cart;
+  const PizzaList(this._cart,{Key? key}) : super(key: key);
 
   @override
   _PizzaListState createState() => _PizzaListState();
 }
 
 class _PizzaListState extends State<PizzaList> {
-  List<Pizza> _pizzas = [];
+  late Future<List<Pizza>> _pizzas;
+  PizzeriaService _service = PizzeriaService();
+
 
   @override
   void initState() {
-    _pizzas = PizzaData.buildList();
+    _pizzas = _service.fetchPizzas();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Nos Pizzas'),
-        ),
-        body: ListView.builder(
-            padding: const EdgeInsets.all(8.0),
-            itemCount: _pizzas.length,
-            itemBuilder: (context, index) {
-              return _buildRow(_pizzas[index]);
-            }));
+        appBar: AppBarWidget('Nos Pizzas', widget._cart),
+        body: FutureBuilder<List<Pizza>> (
+        future: _pizzas,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return _buildListView(snapshot.data!);
+    } else if(snapshot.hasError){
+            return Center(
+            child: Text(
+            'Impossible de récupérer les données: ${snapshot.error}',
+            style: PizzeriaStyle.errorTextStyle,
+            ),
+            );
+    }
+          return Center(child: CircularProgressIndicator());
+    },
+    ),
+    );
   }
 
-  _buildRow(Pizza pizza) {
+  _buildListView(List<Pizza> pizzas) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(8.0),
+      itemCount: pizzas.length,
+      itemBuilder: (context, index) {
+        return _buildRow(context, pizzas[index]);
+      }
+    );
+  }
+    _buildRow(Pizza pizza) {
      return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -47,30 +72,13 @@ class _PizzaListState extends State<PizzaList> {
                 onTap:(){
                   Navigator.push(
                     context, MaterialPageRoute(
-                      builder: (context)=>PizzaDetails(pizza)
+                      builder: (context)=>PizzaDetails(pizza, widget._cart),
                   ),
                   );
                 },
                 child: _buildPizzaDetails(pizza)
               ),
-              BuyButtonWidget()
-         /* ListTile(
-            title: Text(pizza.title),
-            subtitle: Text(pizza.garniture),
-            leading: Icon(Icons.local_pizza),
-          ),
-          Image.asset('assets/images/pizzas/${pizza.image}',
-              height: 120,
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.fitWidth),
-          Text(pizza.garniture),
-          ElevatedButton(
-              child: Text("Commander"),
-              onPressed: () {
-                print('Commander une pizza');
-              })
-
-          */
+              BuyButtonWidget(pizza,  widget._cart)
         ]
           )
         );
@@ -120,4 +128,7 @@ class _PizzaListState extends State<PizzaList> {
       )
     ]);
   }
+}
+
+class PizzariaService {
 }
