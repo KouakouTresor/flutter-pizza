@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/cart.dart';
 import 'package:my_app/models/pizza.dart';
+import 'package:provider/provider.dart';
 
 class BuyButtonWidget extends StatelessWidget {
   final Pizza _pizza;
@@ -9,6 +10,7 @@ class BuyButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cart = Provider.of<Cart>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
   children: [

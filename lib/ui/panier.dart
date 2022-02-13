@@ -3,6 +3,7 @@ import 'dart:js';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/models/cart.dart';
+import 'package:my_app/ui/pizza_details.dart';
 import 'package:my_app/ui/share/total_widget.dart';
 
 class Panier extends StatefulWidget {
@@ -14,46 +15,24 @@ class Panier extends StatefulWidget {
 }
 
 class _PanierState extends State<Panier> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Mon panier'),
-      ),
-      body: Column(
-        children: [
-        Expanded(
-          child: ListView.builder(
-              itemCount: widget._cart.totalItems(),
-              itemBuilder: (context, index) {
-                return _buildItem(widget._cart.getCartItem(index));
-              }
-          )
+        appBar: AppBar(
+          title: Text('Mon panier'),
         ),
-          Row(
-            children:[
-              Text('Total'),
-              Text('30€'),
-            ],
-          ),
-          Container(
-            child: ElevatedButton(
-              child: Text('Valider'),
-              onPressed: (){
-                print('Valider');
-              },
-            )
-          )
-        ]
-      )
-    );
+        body: Column(children: [
+          Expanded(
+              child: ListView.builder(
+                  itemCount: widget._cart.totalItems(),
+                  itemBuilder: (context, index) {
+                  return 
+                    _buildItem(context, widget._cart.getCartItem(index));
+                  })),
+        ]));
   }
 
-
-
-
-  Widget _buildItem(CartItem carteItem){
+  Widget _buildItem(BuildContext context,CartItem carteItem) {
     return Row(
       children: [
         Text(carteItem.pizza.image),
@@ -68,12 +47,27 @@ class _PanierState extends State<Panier> {
     );
   }
 
+
+
+  _buildRow(BuildContext context, CartItem carteItem) {
+  return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(10.0), top: Radius.circular(2.0))),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PizzaDetails(carteItem.pizza, widget._cart),
+                ),
+              );
+            },
+        )
+      ]));
 }
-
-
-
-
-
-
+}
 
 
