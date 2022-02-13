@@ -10,14 +10,16 @@ class CartItem {
 class Cart{
   List<CartItem> _items = [];
 
-  int totalItems(){
-    return _items.length;
+  int totalItems(){return _items.length;}
+
+  CartItem getCartItem(int index){
+    return _items[index];
   }
 
   void addProduct(Pizza pizza){
     int index = findCartItemIndex(pizza.id);
     if(index == -1){
-      return _items.add(CartItem(pizza));
+       _items.add(CartItem(pizza));
     } else {
       CartItem item = _items[index];
       item.quantity ++;

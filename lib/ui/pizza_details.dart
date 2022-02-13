@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/models/Cart.dart';
+import 'package:my_app/models/cart.dart';
 import 'package:my_app/models/option_item.dart';
 import 'package:my_app/models/pizza.dart';
+import 'package:my_app/ui/share/appbar_widget.dart';
 import 'package:my_app/ui/share/buy_button_widget.dart';
 import 'package:my_app/ui/share/pizzeria_style.dart';
 import 'package:my_app/ui/share/total_widget.dart';
@@ -21,9 +22,7 @@ class _PizzaDetailsState extends State<PizzaDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(widget._pizza.title)
-        ),
+        appBar: AppBarWidget(widget._pizza.title, widget._cart),
         body: ListView(
             padding: EdgeInsets.all(4.0),
             children: [
@@ -57,8 +56,7 @@ class _PizzaDetailsState extends State<PizzaDetails> {
               _buildDropDownSauces(),
               TotalWidget(widget._pizza.total),
               BuyButtonWidget(widget._pizza,widget._cart),
-              /* ,
-            BuyButtonWidget(widget._pizza, widget._cart)*/
+
             ]
         )
     );

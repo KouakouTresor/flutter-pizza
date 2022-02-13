@@ -1,16 +1,20 @@
+import 'dart:js';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/models/Cart.dart';
+import 'package:my_app/models/cart.dart';
+import 'package:my_app/ui/share/total_widget.dart';
 
 class Panier extends StatefulWidget {
   final Cart _cart;
-  const Panier(this._cart,{Key? key}) : super(key: key);
+  const Panier(this._cart, {Key? key}) : super(key: key);
 
   @override
   _PanierState createState() => _PanierState();
 }
 
 class _PanierState extends State<Panier> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +23,14 @@ class _PanierState extends State<Panier> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              children : [
-                Text('Pizza 1'),
-                Text('Pizza 2'),
-                Text('Pizza 3'),
-              ],
-            ),
-          ),
+        Expanded(
+          child: ListView.builder(
+              itemCount: widget._cart.totalItems(),
+              itemBuilder: (context, index) {
+                return _buildItem(widget._cart.getCartItem(index));
+              }
+          )
+        ),
           Row(
             children:[
               Text('Total'),
@@ -46,19 +49,31 @@ class _PanierState extends State<Panier> {
       )
     );
   }
+
+
+
+
+  Widget _buildItem(CartItem carteItem){
+    return Row(
+      children: [
+        Text(carteItem.pizza.image),
+        Column(
+          children: [
+            Text(carteItem.pizza.title),
+            TotalWidget(carteItem.pizza.price),
+            TotalWidget(carteItem.pizza.total),
+          ],
+        )
+      ],
+    );
+  }
+
 }
 
-Widget _buildItem(CartItem carteItem){
-  return Row(
-    children: [
-      Text('Image'),
-      Column(
-        children: [
-          Text(carteItem.pizza.title),
-          Text('Prix'),
-          Text('Sous-total'),
-        ],
-      )
-    ],
-  );
-}
+
+
+
+
+
+
+

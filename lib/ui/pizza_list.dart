@@ -1,13 +1,14 @@
+import 'package:path/path.dart' as Path;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/models/Cart.dart';
+import 'package:my_app/models/cart.dart';
 import 'package:my_app/models/pizza.dart';
-import 'package:my_app/models/pizza_data.dart';
 import 'package:my_app/services/pizzeria_service.dart';
 import 'package:my_app/ui/pizza_details.dart';
 import 'package:my_app/ui/share/appbar_widget.dart';
 import 'package:my_app/ui/share/buy_button_widget.dart';
 import 'package:my_app/ui/share/pizzeria_style.dart';
+
 
 class PizzaList extends StatefulWidget {
   final Cart _cart;
@@ -32,19 +33,19 @@ class _PizzaListState extends State<PizzaList> {
     return Scaffold(
         appBar: AppBarWidget('Nos Pizzas', widget._cart),
         body: FutureBuilder<List<Pizza>> (
-        future: _pizzas,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            return _buildListView(snapshot.data!);
-    } else if(snapshot.hasError){
-            return Center(
-            child: Text(
-            'Impossible de récupérer les données: ${snapshot.error}',
-            style: PizzeriaStyle.errorTextStyle,
-            ),
-            );
-    }
-          return Center(child: CircularProgressIndicator());
+          future: _pizzas,
+          builder: ( context, snapshot) {
+            if(snapshot.hasData){
+              return _buildListView(snapshot.data!);
+      } else if(snapshot.hasError){
+              return Center(
+                child: Text(
+                'Impossible de récupérer les données: ${snapshot.error}',
+                style: PizzeriaStyle.errorTextStyle,
+                ),
+                );
+      }
+            return Center(child: CircularProgressIndicator());
     },
     ),
     );
@@ -55,11 +56,11 @@ class _PizzaListState extends State<PizzaList> {
       padding: const EdgeInsets.all(8.0),
       itemCount: pizzas.length,
       itemBuilder: (context, index) {
-        return _buildRow(context, pizzas[index]);
+        return _buildRow(context,pizzas[index]);
       }
     );
   }
-    _buildRow(Pizza pizza) {
+    _buildRow(BuildContext context, Pizza pizza) {
      return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -71,7 +72,8 @@ class _PizzaListState extends State<PizzaList> {
               GestureDetector(
                 onTap:(){
                   Navigator.push(
-                    context, MaterialPageRoute(
+                    context,
+                    MaterialPageRoute(
                       builder: (context)=>PizzaDetails(pizza, widget._cart),
                   ),
                   );

@@ -5,7 +5,7 @@ import 'package:my_app/ui/pizza_list.dart';
 import 'package:my_app/ui/share/appbar_widget.dart';
 import './models/pizza_data.dart';
 import './models/menu.dart';
-import 'models/Cart.dart';
+import 'models/cart.dart';
 import 'models/pizza.dart';
 
 void main() {

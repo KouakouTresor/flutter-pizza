@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/models/Cart.dart';
+import 'package:my_app/models/cart.dart';
 import 'package:my_app/models/pizza.dart';
 
 class BuyButtonWidget extends StatelessWidget {
