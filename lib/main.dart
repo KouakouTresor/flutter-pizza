@@ -1,9 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/ui/panier.dart';
 import 'package:my_app/ui/pizza_list.dart';
 import 'package:my_app/ui/share/appbar_widget.dart';
+import 'package:my_app/ui/share/button_navigation.dart';
 import 'package:provider/provider.dart';
 import './models/pizza_data.dart';
 import './models/menu.dart';
@@ -11,13 +11,12 @@ import 'models/cart.dart';
 import 'models/pizza.dart';
 
 void main() {
- runApp(
-   ChangeNotifierProvider(
-     create: (context) => Cart(),
-     child: MyApp(),
-   ),
- );
-
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Cart(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Notre pizzeria'),
-   /*    routes: {
+      /*    routes: {
         '/profil':(context)=>Profil(),
         '/panier':(context)=>Panier(),
       } */
@@ -40,14 +39,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class  MyHomePage extends StatelessWidget {
+class MyHomePage extends StatelessWidget {
   String title;
   Cart _cart;
 
-  MyHomePage({Key? key, required this.title}) :
-        _cart = Cart(),
+  MyHomePage({Key? key, required this.title})
+      : _cart = Cart(),
         super(key: key);
-
 
   final _menus = [
     Menu(1, 'Entrées', 'entree.png', Colors.lightGreen),
@@ -56,70 +54,63 @@ class  MyHomePage extends StatelessWidget {
     Menu(4, 'Boissons', 'boisson.png', Colors.lightGreen)
   ];
 
+ final bottom = [
+    BottomNavigationBarWidget(1),
+  ];
+
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-      appBar:AppBarWidget(title, _cart),
+    return Scaffold(
+      appBar: AppBarWidget(title, _cart),
       body: Center(
-        child: ListView.builder(
-          itemCount: _menus.length,
-          itemBuilder: (context, index) => InkWell(
-            onTap: (){
-              switch (_menus[index].type){
-                case 2: //Pizza
+          child: ListView.builder(
+        itemCount: _menus.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {
+            switch (_menus[index].type) {
+              case 2: //Pizza
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> PizzaList(_cart)),
+                  MaterialPageRoute(builder: (context) => PizzaList(_cart)),
                 );
                 break;
-              }
-            },
-            child: _buildRow(_menus[index])
-          ),
-          itemExtent: 180,
-        )
-        )
-      );
+            }
+          },
+          child: _buildRow(_menus[index]),
+        ),
+        itemExtent: 180,
+      )),
+      bottomNavigationBar: BottomNavigationBarWidget(bottom.length));
   }
-
 }
 
 _buildRow(Menu menu) {
   return Container(
     height: 180,
     decoration: BoxDecoration(
-      color: menu.color,
-      borderRadius: BorderRadius.all(Radius.circular(20.0))
-    ),
-    
-    margin: EdgeInsets.all(4.0), 
+        color: menu.color,
+        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+    margin: EdgeInsets.all(4.0),
     child: Column(
       children: <Widget>[
-      Expanded(
-        child:Image.asset(
-          'assets/images/menus/${menu.image}',
-          fit: BoxFit.fitWidth,
-          ), 
+        Expanded(
+          child: Image.network(
+            'http://192.168.1.17:8888/static/images/menus/${menu.image}',
+            fit: BoxFit.fitWidth,
           ),
-         Container(
-            height: 50,
-            child: Center(
-              child: Text(
-                menu.title,
+        ),
+        Container(
+          height: 50,
+          child: Center(
+            child: Text(menu.title,
                 style: TextStyle(
-                  fontWeight:  FontWeight.bold,
+                  fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto',
                   fontSize: 28,
-                )
-              ),
-            ),
-          ) ,    
-    ],
+                )),
+          ),
+        ),
+      ],
     ),
-    
   );
-  
 }
-
-
-

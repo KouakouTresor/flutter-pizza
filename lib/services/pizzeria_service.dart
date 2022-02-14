@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class PizzeriaService {
 
-  static final String uri = 'http://192.168.1.17:8888/api';
+  static final String uri = 'http://192.168.1.17:8888/';
 
   Future<List<Pizza>> fetchPizzas() async {
     List<Pizza> list = [];
@@ -13,7 +13,7 @@ class PizzeriaService {
     try{
 
       final response = await http
-          .get(Uri.parse('${uri}/pizzas'));
+          .get(Uri.parse('${uri}api/pizzas'));
       //if(response.statusCode == 200)
       if(response.statusCode == 200){
         var json = jsonDecode(utf8.decode(response.bodyBytes));
