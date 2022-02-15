@@ -1,120 +1,87 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:my_app/models/cart.dart';
+import 'package:my_app/ui/pizza_details.dart';
 import 'package:my_app/ui/share/pizzeria_style.dart';
-import 'package:provider/provider.dart';
-import 'cart.dart';
-import "package:intl/intl.dart";
+import 'package:provider/src/provider.dart';
 
-class _CartList extends StatelessWidget {
-  var format = NumberFormat("###.00");
+class Cart_list extends StatefulWidget {
+  const Cart_list( {Key? key}) : super(key: key);
+
+  @override
+  _Cart_listState createState() => _Cart_listState();
+}
+
+class _Cart_listState extends State<Cart_list> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(6.0),
-      child: Consumer<Cart>(
-        builder: (context, cart, child){
-          final double totalPrice = cart.totalPrice();
-          String totalTTC = format.format(totalPrice);
-          String totalHT = format.format(totalPrice*0.8);// TVA 20%
-
-          if(totalPrice == 0){
-            return Center(
-              child: Text('Aucun produit',
-                style: PizzeriaStyle.priceTotalTextStyle,),
-            );
-          } else {
-            return Container(
-              height: 100,
-              child: Table(
-                columnWidths: {
-                  0: FlexColumnWidth(3),
-                  1: FlexColumnWidth(3),
-                  2: FlexColumnWidth(2),
-                },
-                children: [
-                  TableRow(children: [
-                    Column(children:[
-                      Text('')
-                    ]),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:[
-                        Container(
-                          child: Text(
-                            'TOTAL HT',
-                            style: PizzeriaStyle.itemPriceTextStyle,
-                          ),
+        var cart = context.watch<Cart>();
+    return ListView.builder(
+        itemCount: cart.totalItems(),
+        itemBuilder: (context, index) {
+          var cartItem = cart.getCartItem(index);
+          if (cartItem.quantity > 0) {
+            return Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PizzaDetails(cartItem.pizza),
+                        ));
+                  },
+                  child: Image.network(
+                    'http://10.60.28.79:8888/flutter_pizzas${cartItem.pizza.image}',
+                    height: 100,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+                Container(
+                  height: 110,
+                  //width: 145,
+                  padding: const EdgeInsets.only(left: 5.0, top: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(3.0),
+                        child: Text(
+                          cartItem.pizza.title,
+                          style: PizzeriaStyle.regularTextStyle,
+                          textAlign: TextAlign.left,
                         ),
-                    ]),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            totalHT,
-                            style: PizzeriaStyle.itemPriceTextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Column(children:[
-                      Text('')
-                    ]),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children:[
+                      ),
+                      Row(
+                        children: [
                           Container(
+                            padding: EdgeInsets.all(6.0),
                             child: Text(
-                              'TVA',
+                              '${cartItem.pizza.total} €',
                               style: PizzeriaStyle.itemPriceTextStyle,
                             ),
                           ),
-                        ]),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            '20% ',
-                            style: PizzeriaStyle.itemPriceTextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Column(children:[
-                      Text('')
-                    ]),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children:[
                           Container(
-                            child: Text(
-                              'TOTAL TTC',
-                              style: PizzeriaStyle.subPriceTextStyle,
-                            ),
+                            padding: EdgeInsets.only(left: 60.0, bottom: 20.0),
                           ),
-                        ]),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(
-                            totalTTC,
-                            style: PizzeriaStyle.subPriceTextStyle,
-                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(3.0),
+                        child: Text(
+                          'Sous-total: ${cartItem.pizza.total * cartItem.quantity}',
+                          style: PizzeriaStyle.priceSubTotalTextStyle,
                         ),
-                      ],
-                    ),
-                  ]),
-                ],
-              ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             );
+          } else {
+            return Container();
           }
-        },
-      ),
-    );
+        });
   }
 }

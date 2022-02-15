@@ -31,10 +31,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Notre pizzeria'),
-      /*    routes: {
-        '/profil':(context)=>Profil(),
-        '/panier':(context)=>Panier(),
-      } */
     );
   }
 }
@@ -54,14 +50,10 @@ class MyHomePage extends StatelessWidget {
     Menu(4, 'Boissons', 'boisson.png', Colors.lightGreen)
   ];
 
- final bottom = [
-    BottomNavigationBarWidget(1),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title, _cart),
+      appBar: AppBarWidget(title),
       body: Center(
           child: ListView.builder(
         itemCount: _menus.length,
@@ -80,7 +72,7 @@ class MyHomePage extends StatelessWidget {
         ),
         itemExtent: 180,
       )),
-      bottomNavigationBar: BottomNavigationBarWidget(bottom.length));
+      bottomNavigationBar: BottomNavigationBarWidget(2));
   }
 }
 
@@ -95,7 +87,7 @@ _buildRow(Menu menu) {
       children: <Widget>[
         Expanded(
           child: Image.network(
-            'http://192.168.1.17:8888/static/images/menus/${menu.image}',
+            'http://192.68.1.17:8888/static/images/menus/${menu.image}',
             fit: BoxFit.fitWidth,
           ),
         ),

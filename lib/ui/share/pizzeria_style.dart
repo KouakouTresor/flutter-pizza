@@ -29,7 +29,7 @@ class PizzeriaStyle {
   );
 
   static final TextStyle priceSubTotalTextStyle = baseTextStyle.copyWith(
-    color: Colors.blueGrey,
+    color: Colors.indigoAccent,
     fontSize: 26.0,
     fontWeight: FontWeight.bold,
   );

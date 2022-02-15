@@ -31,13 +31,10 @@ class _PizzaListState extends State<PizzaList> {
     BottomNavigationBarWidget(1),
   ];
 
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget('Nos Pizzas', widget._cart),
+        appBar: AppBarWidget('Nos Pizzas'),
         body: FutureBuilder<List<Pizza>>(
           future: _pizzas,
           builder: (context, snapshot) {
@@ -78,12 +75,12 @@ class _PizzaListState extends State<PizzaList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PizzaDetails(pizza, widget._cart),
+                    builder: (context) => PizzaDetails(pizza),
                   ),
                 );
               },
               child: _buildPizzaDetails(pizza)),
-          BuyButtonWidget(pizza, widget._cart)
+          BuyButtonWidget(pizza)
         ]));
   }
 

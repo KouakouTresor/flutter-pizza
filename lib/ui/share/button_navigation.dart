@@ -44,7 +44,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Panier(cart),
+                    builder: (context) => Panier(),
                   ));
               break;
           }

@@ -5,12 +5,12 @@ import 'package:my_app/ui/share/pizzeria_style.dart';
 import 'package:provider/provider.dart';
 import "package:intl/intl.dart";
 
-class _CartTotal extends StatelessWidget{
-  var format = NumberFormat("###.00 €");
+class CartTotal extends StatelessWidget {
+  const CartTotal({ Key? key }) : super(key: key);
   
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
+      var format = NumberFormat("###.00 €");
     return Container(
       padding: EdgeInsets.all(6.0),
       child: Consumer<Cart>(
@@ -77,11 +77,9 @@ class _CartTotal extends StatelessWidget{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Text(
-                            '20% ',
-                            style: PizzeriaStyle.itemPriceTextStyle,
-                          ),
+                        Text(
+                          '20% ',
+                          style: PizzeriaStyle.itemPriceTextStyle,
                         ),
                       ],
                     ),
